@@ -1,4 +1,14 @@
 version: 2
+sources:
+  - name: jaffle_shop
+    database: dbt-tutorial
+    tables:
+      - name: orders
+      - name: customers
+  - name: stripe
+    database: dbt-tutorial
+    tables:
+      - name: payment
 
 models:
   - name: customers
