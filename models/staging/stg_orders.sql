@@ -1,7 +1,11 @@
 select
-    id as order_id,
+    orders.id as order_id,
     user_id as customer_id,
     order_date,
-    status
+    orders.status,
+    count(payment.id) as payment_count,
+    sum(coalesce(payment.amount, 0)) as payment_amount
 
-from `dbt-tutorial`.jaffle_shop.orders
+from {{source('jaffle_shop', 'orders')}} orders
+left join {{source('stripe', 'payment')}} payment on orders.id = payment.orderid
+group by 1, 2, 3, 4
